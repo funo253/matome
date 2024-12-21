@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ツール3 | 名前とリンクを生成</title>
+  <link rel="stylesheet" href="../../style.css"> <!-- 共通スタイル -->
+  <style>
+    body {
+      margin: 20px;
+      background-color: #fff;
+      color: #000;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    input {
+      font-size: 1rem;
+      padding: 5px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #ff9800;
+      color: white;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #e68900;
+    }
+
+    #result {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    footer {
+      margin-top: 20px;
+    }
+
+    .back-link {
+      display: inline-block;
+      text-decoration: none;
+      color: white;
+      background-color: #007BFF;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .back-link:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    .back-link:active {
+      transform: scale(0.95);
+    }
+
+    .back-link:focus {
+      outline: 2px dashed #80d4ff;
+      outline-offset: 4px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <h1>ツール3 | 名前とリンクを生成</h1>
+      <a href="../../index.html" class="back-link">ホームに戻る</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>名前とリンクの生成ツール</h1>
+    <p>名前とリンクを入力して、次の形式で表示します： `(名前)[リンク]`</p>
+
+    <label for="name">名前を入力:</label>
+    <input type="text" id="name" placeholder="名前を入力してください">
+
+    <label for="link">リンクを入力:</label>
+    <input type="url" id="link" placeholder="https://example.com">
+
+    <button onclick="generateLink()">生成する</button>
+
+    <div id="result">結果がここに表示されます</div>
+
+    <!-- 追加：コピー用ボタン -->
+    <button id="copyButton" onclick="copyToClipboard()" style="display:none;">コピーする</button>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 夢野ふのウェブツール</p>
+  </footer>
+
+  <script>
+    function generateLink() {
+      const name = document.getElementById('name').value;
+      const link = document.getElementById('link').value;
+      
+      if (name && link) {
+        const result = `(${name})[${link}]`;
+        document.getElementById('result').textContent = `生成されたリンク: ${result}`;
+        
+        // コピー用ボタンを表示
+        document.getElementById('copyButton').style.display = 'inline-block';
+        
+        // コピーした内容を格納
+        document.getElementById('copyButton').dataset.text = result;
+      } else {
+        document.getElementById('result').textContent = "名前とリンクの両方を入力してください。";
+        // コピー用ボタンを非表示
+        document.getElementById('copyButton').style.display = 'none';
+      }
+    }
+
+    function copyToClipboard() {
+      const textToCopy = document.getElementById('copyButton').dataset.text;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        alert("生成されたリンクをコピーしました！");
+      }).catch(err => {
+        alert("コピーに失敗しました: " + err);
+      });
+    }
+  </script>
+</body>
+</html>

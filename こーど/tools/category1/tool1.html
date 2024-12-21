@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ツール1 | Discord用Markdown Editor</title>
+  <link rel="stylesheet" href="../../style.css"> <!-- 共通スタイル -->
+  <style>
+    body {
+      margin: 20px;
+      background-color: #fff;
+      color: #000;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      margin-top: 20px;
+    }
+
+    #editor {
+      width: 100%;
+      min-height: 200px;
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #fff;
+      color: #000;
+      font-family: 'Kosugi Maru', sans-serif;
+    }
+
+    #toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    #toolbar button {
+      padding: 8px 12px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f0f0f0;
+      color: black;
+      transition: background-color 0.2s;
+    }
+
+    #toolbar button:hover {
+      background-color: #e0e0e0;
+    }
+
+    #toolbar button:active {
+      background-color: #ccc;
+    }
+
+    button {
+      padding: 10px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #ff9800;
+      color: white;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #e68900;
+    }
+
+    .back-link {
+      display: inline-block;
+      text-decoration: none;
+      color: white;
+      background-color: #007BFF;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .back-link:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    .back-link:active {
+      transform: scale(0.95);
+    }
+
+    .back-link:focus {
+      outline: 2px dashed #80d4ff;
+      outline-offset: 4px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <h1>ツール1 | Discord用Markdown Editor</h1>
+      <a href="../../index.html" class="back-link">ホームに戻る</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Discord用Markdown Editor</h1>
+    <p>Discord用のマークダウンを簡単に作れます。</p>
+
+    <div id="toolbar">
+      <button onclick="addMarkdown('**', '**')">太字</button>
+      <button onclick="addMarkdown('*', '*')">斜体</button>
+      <button onclick="addMarkdown('-# ', '')">小文字</button>
+      <button onclick="addMarkdown('# ', '')">見出し1</button>
+      <button onclick="addMarkdown('## ', '')">見出し2</button>
+      <button onclick="addMarkdown('### ', '')">見出し3</button>
+      <button onclick="addMarkdown('||', '||')">ネタバレ</button>
+      <button onclick="addMarkdown('~~', '~~')">伏字</button>
+      <button onclick="addMarkdown('> ', '')">引用</button>
+      <button onclick="addMarkdown('`', '`')">コード</button>
+      <button onclick="addMarkdown('```\n', '\n```')">コードブロック</button>
+    </div>
+
+    <h2>マークダウン入力</h2>
+    <textarea id="editor" oninput="updatePreview()"></textarea>
+    <button onclick="copyToClipboard()">マークダウンをコピー</button>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 夢野ふのウェブツール</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    const editor = document.getElementById('editor');
+
+    function addMarkdown(before, after) {
+      const start = editor.selectionStart;
+      const end = editor.selectionEnd;
+      const text = editor.value;
+      const selectedText = text.slice(start, end);
+      const newText = text.slice(0, start) + before + selectedText + after + text.slice(end);
+      editor.value = newText;
+      editor.focus();
+      editor.setSelectionRange(start + before.length, end + before.length);
+    }
+
+    function copyToClipboard() {
+      const markdownText = editor.value;
+      navigator.clipboard.writeText(markdownText).then(() => {
+        alert("マークダウンをコピーしました！");
+      }).catch(err => {
+        alert("コピーに失敗しました: " + err);
+      });
+    }
+  </script>
+</body>
+</html>
